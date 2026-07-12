@@ -12,7 +12,7 @@ export function Hero() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=2070&auto=format&fit=crop"
+          src="https://loremflickr.com/1200/800/dj,party?lock=11"
           alt="Ejaas House Mountain Party"
           fill
           className="object-cover"

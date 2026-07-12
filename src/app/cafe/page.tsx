@@ -13,24 +13,24 @@ const menuItems = [
     category: "Specialty Coffee",
     icon: Coffee,
     items: [
-      { name: "Himalayan Pour Over", desc: "Single origin local beans, manually brewed.", price: "₹250", image: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=2071&auto=format&fit=crop" },
-      { name: "Iced Caramel Macchiato", desc: "Espresso, vanilla, milk, and caramel drizzle.", price: "₹280", image: "https://images.unsplash.com/photo-1461023058943-0708e52235eb?q=80&w=2070&auto=format&fit=crop" },
+      { name: "Himalayan Pour Over", desc: "Single origin local beans, manually brewed.", price: "₹250", image: "https://loremflickr.com/1200/800/coffee,pour?lock=3" },
+      { name: "Iced Caramel Macchiato", desc: "Espresso, vanilla, milk, and caramel drizzle.", price: "₹280", image: "https://loremflickr.com/1200/800/macchiato?lock=4" },
     ]
   },
   {
     category: "Wood-Fired Pizza",
     icon: Pizza,
     items: [
-      { name: "Truffle Mushroom", desc: "Wild mushrooms, truffle oil, mozzarella, white sauce.", price: "₹650", image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=2081&auto=format&fit=crop" },
-      { name: "Classic Margherita", desc: "Fresh tomatoes, basil, mozzarella, olive oil.", price: "₹450", image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=2069&auto=format&fit=crop" },
+      { name: "Truffle Mushroom", desc: "Wild mushrooms, truffle oil, mozzarella, white sauce.", price: "₹650", image: "https://loremflickr.com/1200/800/pizza,mushroom?lock=5" },
+      { name: "Classic Margherita", desc: "Fresh tomatoes, basil, mozzarella, olive oil.", price: "₹450", image: "https://loremflickr.com/1200/800/pizza,margherita?lock=6" },
     ]
   },
   {
     category: "Healthy Bowls & Breakfast",
     icon: Leaf,
     items: [
-      { name: "Avocado Toast", desc: "Sourdough, smashed avocado, cherry tomatoes, seeds.", price: "₹350", image: "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?q=80&w=2072&auto=format&fit=crop" },
-      { name: "Acai Berry Bowl", desc: "Mixed berries, granola, banana, chia seeds, honey.", price: "₹450", image: "https://images.unsplash.com/photo-1590301157890-4810ed352733?q=80&w=2070&auto=format&fit=crop" },
+      { name: "Avocado Toast", desc: "Sourdough, smashed avocado, cherry tomatoes, seeds.", price: "₹350", image: "https://loremflickr.com/1200/800/avocado,toast?lock=7" },
+      { name: "Acai Berry Bowl", desc: "Mixed berries, granola, banana, chia seeds, honey.", price: "₹450", image: "https://loremflickr.com/1200/800/acaibowl?lock=8" },
     ]
   }
 ];
@@ -39,28 +39,28 @@ const experiences = [
   {
     title: "River Rafting Adventure",
     desc: "Experience the thrill of the Ganges. We organize daily rafting trips with professional guides, transport included.",
-    image: "https://images.unsplash.com/photo-1531631551829-fbf5eb305c45?q=80&w=1974&auto=format&fit=crop",
+    image: "https://loremflickr.com/1200/800/rafting?lock=9",
     icon: Map,
     cta: "Book Rafting"
   },
   {
     title: "Sunrise Yoga & Meditation",
     desc: "Start your day with mindfulness. Join our expert instructors for morning yoga overlooking the valley.",
-    image: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?q=80&w=2070&auto=format&fit=crop",
+    image: "https://loremflickr.com/1200/800/yoga,sunrise?lock=10",
     icon: Sun,
     cta: "Join Session"
   },
   {
     title: "Legendary DJ Parties",
     desc: "When the weekend hits, our cafe transforms into a vibrant music festival. Top DJs, great cocktails, amazing crowd.",
-    image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=2070&auto=format&fit=crop",
+    image: "https://loremflickr.com/1200/800/dj,party?lock=11",
     icon: Music,
     cta: "Get Guestlist"
   },
   {
     title: "Digital Nomad Coworking",
     desc: "High-speed WiFi, ergonomic chairs, plenty of power outlets, and endless coffee. The ultimate remote work setup.",
-    image: "https://images.unsplash.com/photo-1527192491265-7e15c55b1ed2?q=80&w=2070&auto=format&fit=crop",
+    image: "https://loremflickr.com/1200/800/coworking?lock=1",
     icon: Laptop,
     cta: "View Passes"
   }
@@ -73,7 +73,7 @@ export default function CafePage() {
       <section className="relative h-[70vh] w-full flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=2047&auto=format&fit=crop"
+            src="https://loremflickr.com/1200/800/cafe,mountain?lock=12"
             alt="The Mountain Cafe"
             fill
             className="object-cover"

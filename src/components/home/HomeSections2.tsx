@@ -10,9 +10,9 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export function LifestyleSection() {
   const activities = [
-    { title: "Yoga & Wellness", image: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?q=80&w=2070&auto=format&fit=crop" },
-    { title: "Coworking Space", image: "https://images.unsplash.com/photo-1527192491265-7e15c55b1ed2?q=80&w=2070&auto=format&fit=crop" },
-    { title: "River Rafting", image: "https://images.unsplash.com/photo-1531631551829-fbf5eb305c45?q=80&w=1974&auto=format&fit=crop" }
+    { title: "Yoga & Wellness", image: "https://loremflickr.com/1200/800/yoga,sunrise?lock=10" },
+    { title: "Coworking Space", image: "https://loremflickr.com/1200/800/coworking?lock=1" },
+    { title: "River Rafting", image: "https://loremflickr.com/1200/800/rafting?lock=9" }
   ];
 
   return (
@@ -86,7 +86,7 @@ export function FinalCTA() {
   return (
     <section className="relative py-32 overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <Image src="https://images.unsplash.com/photo-1478147427282-58a87a120781?q=80&w=2070&auto=format&fit=crop" alt="Bonfire CTA" fill className="object-cover" />
+        <Image src="https://loremflickr.com/1200/800/bonfire,friends?lock=26" alt="Bonfire CTA" fill className="object-cover" />
         <div className="absolute inset-0 bg-primary/90 mix-blend-multiply" />
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-900/80 to-transparent" />
       </div>

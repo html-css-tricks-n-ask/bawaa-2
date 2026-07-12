@@ -18,10 +18,10 @@ const rooms = [
     bed: "1 King Bed",
     amenities: ["Free High-Speed WiFi", "Air Conditioning", "Mountain View", "Private Balcony", "En-suite Bathroom", "Smart TV", "Mini Fridge", "Room Service"],
     images: [
-      "https://images.unsplash.com/photo-1598928506311-c55dd70c6576?q=80&w=2070&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1522771731470-ea4322436d40?q=80&w=2070&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=2070&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=2070&auto=format&fit=crop"
+      "https://loremflickr.com/1200/800/cabin,mountain?lock=13",
+      "https://loremflickr.com/1200/800/hostel,dorm?lock=14",
+      "https://loremflickr.com/1200/800/bedroom,cozy?lock=15",
+      "https://loremflickr.com/1200/800/cabin,interior?lock=16"
     ]
   },
   {
@@ -32,10 +32,10 @@ const rooms = [
     bed: "Single Bunk",
     amenities: ["Free High-Speed WiFi", "Air Conditioning", "Privacy Curtain", "Large Locker", "Reading Light", "Shared Luxury Bathroom", "Daily Housekeeping"],
     images: [
-      "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?q=80&w=2069&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1974&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1505691938895-1758d7bef511?q=80&w=2070&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2025&auto=format&fit=crop"
+      "https://loremflickr.com/1200/800/hostel,lounge?lock=17",
+      "https://loremflickr.com/1200/800/hostel,bunk?lock=18",
+      "https://loremflickr.com/1200/800/hostel,room?lock=19",
+      "https://loremflickr.com/1200/800/hostel,bed?lock=20"
     ]
   },
   {
@@ -46,10 +46,10 @@ const rooms = [
     bed: "1 Queen Bed",
     amenities: ["Free High-Speed WiFi", "Air Conditioning", "Work Desk", "Mountain View", "En-suite Bathroom", "Coffee Maker"],
     images: [
-      "https://images.unsplash.com/photo-1618221118493-9cfa1a1c00da?q=80&w=2064&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=2070&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1631049035182-249067d7618e?q=80&w=2070&auto=format&fit=crop"
+      "https://loremflickr.com/1200/800/bedroom,mountain?lock=21",
+      "https://loremflickr.com/1200/800/bedroom,modern?lock=22",
+      "https://loremflickr.com/1200/800/bedroom,wood?lock=23",
+      "https://loremflickr.com/1200/800/bedroom,view?lock=24"
     ]
   }
 ];
@@ -61,7 +61,7 @@ export default function RoomsPage() {
       <section className="relative h-[60vh] w-full flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1598928506311-c55dd70c6576?q=80&w=2070&auto=format&fit=crop"
+            src="https://loremflickr.com/1200/800/cabin,mountain?lock=13"
             alt="Ejaas House Rooms"
             fill
             className="object-cover"

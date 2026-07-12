@@ -22,7 +22,7 @@ export function AboutSection() {
               className="relative h-[600px] w-full rounded-3xl overflow-hidden shadow-2xl"
             >
               <Image 
-                src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?q=80&w=2069&auto=format&fit=crop"
+                src="https://loremflickr.com/1200/800/hostel,lounge?lock=17"
                 alt="Ejaas House Lounge"
                 fill
                 className="object-cover hover:scale-105 transition-transform duration-700"
@@ -101,19 +101,19 @@ export function FeaturedRoomsSection() {
     {
       title: "Premium Mountain Cabin",
       price: "₹4,500 / night",
-      image: "https://images.unsplash.com/photo-1598928506311-c55dd70c6576?q=80&w=2070&auto=format&fit=crop",
+      image: "https://loremflickr.com/1200/800/cabin,mountain?lock=13",
       features: ["Private Balcony", "King Bed", "En-suite"]
     },
     {
       title: "Luxury Mixed Dorm",
       price: "₹999 / night",
-      image: "https://images.unsplash.com/photo-1522771731470-ea4322436d40?q=80&w=2070&auto=format&fit=crop",
+      image: "https://loremflickr.com/1200/800/hostel,dorm?lock=14",
       features: ["Privacy Curtains", "Lockers", "AC"]
     },
     {
       title: "Cozy Private Room",
       price: "₹3,200 / night",
-      image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=2070&auto=format&fit=crop",
+      image: "https://loremflickr.com/1200/800/bedroom,cozy?lock=15",
       features: ["Queen Bed", "Work Desk", "Mountain View"]
     }
   ];
@@ -208,7 +208,7 @@ export function CafeSection() {
               transition={{ duration: 0.6 }}
               className="relative h-[300px] lg:h-[400px] rounded-3xl overflow-hidden mt-8"
             >
-              <Image src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=2081&auto=format&fit=crop" alt="Pizza" fill className="object-cover" />
+              <Image src="https://loremflickr.com/1200/800/pizza,mushroom?lock=5" alt="Pizza" fill className="object-cover" />
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: -40 }}
@@ -217,7 +217,7 @@ export function CafeSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative h-[300px] lg:h-[400px] rounded-3xl overflow-hidden"
             >
-              <Image src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=2071&auto=format&fit=crop" alt="Coffee" fill className="object-cover" />
+              <Image src="https://loremflickr.com/1200/800/coffee,pour?lock=3" alt="Coffee" fill className="object-cover" />
             </motion.div>
           </div>
         </div>
@@ -228,10 +228,10 @@ export function CafeSection() {
 
 export function EventsSection() {
   const events = [
-    { title: "Weekend DJ Parties", image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=2070&auto=format&fit=crop", desc: "Dance under the stars with top DJs." },
-    { title: "Live Acoustic Nights", image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974&auto=format&fit=crop", desc: "Soulful music sessions every Friday." },
-    { title: "Bonfire & Community", image: "https://images.unsplash.com/photo-1478147427282-58a87a120781?q=80&w=2070&auto=format&fit=crop", desc: "Stories, marshmallows, and new friends." },
-    { title: "Open Mic Sessions", image: "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?q=80&w=2070&auto=format&fit=crop", desc: "Showcase your talent to an amazing crowd." }
+    { title: "Weekend DJ Parties", image: "https://loremflickr.com/1200/800/dj,party?lock=11", desc: "Dance under the stars with top DJs." },
+    { title: "Live Acoustic Nights", image: "https://loremflickr.com/1200/800/acoustic,music?lock=25", desc: "Soulful music sessions every Friday." },
+    { title: "Bonfire & Community", image: "https://loremflickr.com/1200/800/bonfire,friends?lock=26", desc: "Stories, marshmallows, and new friends." },
+    { title: "Open Mic Sessions", image: "https://loremflickr.com/1200/800/openmic,music?lock=27", desc: "Showcase your talent to an amazing crowd." }
   ];
 
   return (

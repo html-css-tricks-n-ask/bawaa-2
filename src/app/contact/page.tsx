@@ -68,7 +68,7 @@ export default function ContactPage() {
     <div className="min-h-screen">
       <section className="relative h-[60vh] w-full flex items-center justify-center">
         <div className="absolute inset-0 z-0">
-          <Image src="https://images.unsplash.com/photo-1527192491265-7e15c55b1ed2?q=80&w=2070&auto=format&fit=crop" alt="Contact Ejaas House" fill className="object-cover" priority />
+          <Image src="https://loremflickr.com/1200/800/coworking?lock=1" alt="Contact Ejaas House" fill className="object-cover" priority />
           <div className="absolute inset-0 bg-black/50" />
         </div>
         <div className="relative z-10 text-center text-white px-4">
@@ -185,7 +185,7 @@ export default function ContactPage() {
                 </div>
               </div>
               <div className="w-full h-64 bg-zinc-200 dark:bg-zinc-800 rounded-3xl overflow-hidden relative shadow-inner">
-                <Image src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop" alt="Map View" fill className="object-cover opacity-50 grayscale" />
+                <Image src="https://loremflickr.com/1200/800/map?lock=2" alt="Map View" fill className="object-cover opacity-50 grayscale" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <Button variant="secondary" className="rounded-full shadow-xl"><MapPin className="mr-2" size={18} /> Open in Google Maps</Button>
                 </div>
