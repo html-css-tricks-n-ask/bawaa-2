@@ -51,7 +51,7 @@ export function FAQSection() {
       <div className="container mx-auto px-4 md:px-8 max-w-4xl">
         <SectionHeading title="Frequently Asked Questions" />
         
-        <Accordion type="single" collapsible className="w-full">
+        <Accordion className="w-full">
           <AccordionItem value="item-1" className="border-b-zinc-200 dark:border-zinc-800">
             <AccordionTrigger className="text-lg font-semibold hover:text-primary transition-colors">Do you have high-speed WiFi for remote work?</AccordionTrigger>
             <AccordionContent className="text-muted-foreground text-base">
