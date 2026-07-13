@@ -1,5 +1,5 @@
 import { Hero } from "@/components/home/Hero";
-import { AboutSection, FeaturedRoomsSection, CafeSection, EventsSection } from "@/components/home/HomeSections";
+import { AboutSection, CafeSection, EventsSection } from "@/components/home/HomeSections";
 import { LifestyleSection, FAQSection, FinalCTA } from "@/components/home/HomeSections2";
 
 export default function Home() {
@@ -7,7 +7,6 @@ export default function Home() {
     <div className="min-h-screen">
       <Hero />
       <AboutSection />
-      <FeaturedRoomsSection />
       <CafeSection />
       <EventsSection />
       <LifestyleSection />

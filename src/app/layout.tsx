@@ -25,7 +25,7 @@ export default function RootLayout({
       lang="en"
       className={`${plusJakartaSans.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col font-sans selection:bg-primary/30 selection:text-primary-foreground">
+      <body className="min-h-full flex flex-col font-sans selection:bg-primary/30 selection:text-primary-foreground" suppressHydrationWarning>
         <Navbar />
         <main className="flex-1">
           {children}

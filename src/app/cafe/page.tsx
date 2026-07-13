@@ -1,194 +1,157 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
-import { SectionHeading } from "@/components/shared/SectionHeading";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { Coffee, Pizza, Leaf, Sun, Music, Flame, Map, Laptop } from "lucide-react";
-
-const menuItems = [
-  {
-    category: "Specialty Coffee",
-    icon: Coffee,
-    items: [
-      { name: "Himalayan Pour Over", desc: "Single origin local beans, manually brewed.", price: "₹250", image: "https://loremflickr.com/1200/800/coffee,pour?lock=3" },
-      { name: "Iced Caramel Macchiato", desc: "Espresso, vanilla, milk, and caramel drizzle.", price: "₹280", image: "https://loremflickr.com/1200/800/macchiato?lock=4" },
-    ]
-  },
-  {
-    category: "Wood-Fired Pizza",
-    icon: Pizza,
-    items: [
-      { name: "Truffle Mushroom", desc: "Wild mushrooms, truffle oil, mozzarella, white sauce.", price: "₹650", image: "https://loremflickr.com/1200/800/pizza,mushroom?lock=5" },
-      { name: "Classic Margherita", desc: "Fresh tomatoes, basil, mozzarella, olive oil.", price: "₹450", image: "https://loremflickr.com/1200/800/pizza,margherita?lock=6" },
-    ]
-  },
-  {
-    category: "Healthy Bowls & Breakfast",
-    icon: Leaf,
-    items: [
-      { name: "Avocado Toast", desc: "Sourdough, smashed avocado, cherry tomatoes, seeds.", price: "₹350", image: "https://loremflickr.com/1200/800/avocado,toast?lock=7" },
-      { name: "Acai Berry Bowl", desc: "Mixed berries, granola, banana, chia seeds, honey.", price: "₹450", image: "https://loremflickr.com/1200/800/acaibowl?lock=8" },
-    ]
-  }
-];
-
-const experiences = [
-  {
-    title: "River Rafting Adventure",
-    desc: "Experience the thrill of the Ganges. We organize daily rafting trips with professional guides, transport included.",
-    image: "https://loremflickr.com/1200/800/rafting?lock=9",
-    icon: Map,
-    cta: "Book Rafting"
-  },
-  {
-    title: "Sunrise Yoga & Meditation",
-    desc: "Start your day with mindfulness. Join our expert instructors for morning yoga overlooking the valley.",
-    image: "https://loremflickr.com/1200/800/yoga,sunrise?lock=10",
-    icon: Sun,
-    cta: "Join Session"
-  },
-  {
-    title: "Legendary DJ Parties",
-    desc: "When the weekend hits, our cafe transforms into a vibrant music festival. Top DJs, great cocktails, amazing crowd.",
-    image: "https://loremflickr.com/1200/800/dj,party?lock=11",
-    icon: Music,
-    cta: "Get Guestlist"
-  },
-  {
-    title: "Digital Nomad Coworking",
-    desc: "High-speed WiFi, ergonomic chairs, plenty of power outlets, and endless coffee. The ultimate remote work setup.",
-    image: "https://loremflickr.com/1200/800/coworking?lock=1",
-    icon: Laptop,
-    cta: "View Passes"
-  }
-];
+import { Coffee, Pizza, Leaf, Clock, MapPin } from "lucide-react";
+import { motion } from "framer-motion";
+import { FADE_UP, STAGGER_CONTAINER, SLOW_ZOOM } from "@/lib/animations";
+import { YouTubeVideoBackground } from "@/components/shared/YouTubeVideoBackground";
 
 export default function CafePage() {
+  const menuCategories = [
+    {
+      title: "Artisan Coffee",
+      icon: Coffee,
+      image: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1000&auto=format&fit=crop",
+      items: [
+        { name: "Himalayan Pour Over", price: "₹250", desc: "Single origin estate beans, manual brew." },
+        { name: "Cortado", price: "₹200", desc: "Double ristretto with textured milk." },
+        { name: "Iced Vanilla Oat Latte", price: "₹300", desc: "House-made vanilla syrup, premium oat milk." },
+        { name: "Cold Brew Batch", price: "₹220", desc: "Steeped for 18 hours, served over ice." }
+      ]
+    },
+    {
+      title: "Wood-Fired Pizza",
+      icon: Pizza,
+      image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1000&auto=format&fit=crop",
+      items: [
+        { name: "Margherita Sourdough", price: "₹450", desc: "San Marzano tomatoes, fresh mozzarella, basil." },
+        { name: "Truffle Mushroom", price: "₹650", desc: "Wild mushrooms, truffle oil, parmesan." },
+        { name: "The Tapovan Veggie", price: "₹550", desc: "Locally sourced bell peppers, olives, jalapeños." },
+        { name: "Four Cheese", price: "₹600", desc: "Mozzarella, gorgonzola, parmesan, ricotta." }
+      ]
+    },
+    {
+      title: "Healthy Bowls",
+      icon: Leaf,
+      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1000&auto=format&fit=crop",
+      items: [
+        { name: "Acai Berry Bowl", price: "₹450", desc: "Amazonian acai, house granola, fresh berries." },
+        { name: "Buddha Bowl", price: "₹350", desc: "Quinoa, roasted sweet potato, kale, tahini." },
+        { name: "Avocado Sourdough Toast", price: "₹300", desc: "Smashed avocado, cherry tomatoes, microgreens." },
+        { name: "Protein Smoothie", price: "₹250", desc: "Banana, peanut butter, raw cocoa, almond milk." }
+      ]
+    }
+  ];
+
   return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <section className="relative h-[70vh] w-full flex items-center justify-center">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="https://loremflickr.com/1200/800/cafe,mountain?lock=12"
-            alt="The Mountain Cafe"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-black/60" />
-        </div>
-        <div className="relative z-10 text-center text-white px-4 max-w-4xl mt-16">
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-7xl font-bold mb-6"
-          >
+    <div className="min-h-screen bg-background">
+      {/* Cinematic Video Hero */}
+      <section className="relative h-[60vh] w-full flex items-end justify-start overflow-hidden bg-black">
+        <YouTubeVideoBackground videoId="J3FSrjt3mMs" startTime={10} />
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/85 via-black/30 to-black/10" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/40 to-transparent" />
+        
+        <motion.div 
+          variants={STAGGER_CONTAINER}
+          initial="hidden"
+          animate="show"
+          className="relative z-20 container mx-auto px-4 md:px-8 max-w-7xl pb-14 pt-28"
+        >
+          <motion.div variants={FADE_UP} className="inline-flex items-center justify-center bg-accent text-white px-4 py-2 rounded-full mb-4 text-sm font-bold gap-2">
+            <Coffee size={16} /> Open Daily 8AM — 11PM
+          </motion.div>
+          <motion.h1 variants={FADE_UP} className="text-5xl md:text-6xl font-extrabold text-white mb-4 tracking-tight drop-shadow-lg">
             The Mountain Café
           </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-xl md:text-2xl text-zinc-200"
-          >
-            Where great food meets the best community in Rishikesh.
+          <motion.p variants={FADE_UP} className="text-lg text-white/80 max-w-xl font-medium">
+            Where local ingredients meet culinary artistry in the Himalayas.
           </motion.p>
+        </motion.div>
+
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-20 z-20 bg-gradient-to-t from-background to-transparent" />
+      </section>
+
+      {/* Philosophy Section */}
+      <section className="py-10 bg-white border-b border-border shadow-sm relative z-20">
+        <div className="container mx-auto px-4 text-center">
+          <motion.div 
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={STAGGER_CONTAINER}
+            className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12 text-muted-foreground font-bold"
+          >
+            <motion.div variants={FADE_UP} className="flex items-center gap-2">
+              <Clock size={20} className="text-primary" />
+              <span>Open Daily: 8:00 AM - 11:00 PM</span>
+            </motion.div>
+            <motion.div variants={FADE_UP} className="flex items-center gap-2">
+              <MapPin size={20} className="text-primary" />
+              <span>Inside Ejaas House, Tapovan</span>
+            </motion.div>
+            <motion.div variants={FADE_UP} className="flex items-center gap-2">
+              <Leaf size={20} className="text-primary" />
+              <span>Locally Sourced Ingredients</span>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Story */}
-      <section className="py-24 bg-background">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <SectionHeading title="Our Philosophy" subtitle="We believe that good food brings people together. Our cafe is designed to be the heartbeat of Ejaas House – a place to share stories, work on your startup, or recover from a long trek." />
-          </div>
-        </div>
-      </section>
-
-      {/* Menu */}
-      <section className="py-24 bg-zinc-50 dark:bg-zinc-900/50">
-        <div className="container mx-auto px-4 md:px-8">
-          <SectionHeading title="Featured Menu" subtitle="A taste of what we serve. Fresh, local, and made with love." />
-          
-          <div className="space-y-16 mt-12">
-            {menuItems.map((category, idx) => (
-              <div key={idx}>
-                <div className="flex items-center gap-3 mb-8">
-                  <category.icon size={28} className="text-primary" />
-                  <h3 className="text-3xl font-bold">{category.category}</h3>
-                </div>
-                <div className="grid md:grid-cols-2 gap-8">
-                  {category.items.map((item, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      <Card className="overflow-hidden border-0 shadow-md hover:shadow-xl transition-shadow flex flex-row h-40">
-                        <div className="w-1/3 relative">
-                          <Image src={item.image} alt={item.name} fill className="object-cover" />
-                        </div>
-                        <CardContent className="w-2/3 p-6 flex flex-col justify-center">
-                          <div className="flex justify-between items-start mb-2">
-                            <h4 className="font-bold text-lg leading-tight">{item.name}</h4>
-                            <span className="font-bold text-primary">{item.price}</span>
-                          </div>
-                          <p className="text-sm text-muted-foreground">{item.desc}</p>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-16 text-center">
-            <Button size="lg" className="rounded-full shadow-lg" variant="outline">
-              Download Full Menu (PDF)
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Experiences Section */}
-      <section className="py-24 bg-background overflow-hidden" id="experiences">
-        <div className="container mx-auto px-4 md:px-8">
-          <SectionHeading title="Experiences & Events" subtitle="The cafe is the starting point for all our adventures." />
-
-          <div className="grid md:grid-cols-2 gap-12 mt-12">
-            {experiences.map((exp, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="group"
+      {/* Menu Section */}
+      <section className="py-20 bg-secondary/30">
+        <div className="container mx-auto px-4 md:px-8 max-w-6xl">
+          <motion.div 
+            variants={STAGGER_CONTAINER}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            className="flex flex-col gap-12"
+          >
+            {menuCategories.map((category) => (
+              <motion.div 
+                variants={FADE_UP}
+                key={category.title}
+                className="bg-card rounded-[2rem] shadow-soft overflow-hidden flex flex-col md:flex-row border border-border group hover:shadow-soft-lg hover:-translate-y-2 transition-all duration-300"
               >
-                <div className="relative h-80 w-full rounded-3xl overflow-hidden shadow-lg mb-6">
-                  <Image src={exp.image} alt={exp.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                  <div className="absolute bottom-6 left-6 text-white flex items-center gap-3">
-                    <div className="bg-primary p-2 rounded-full">
-                      <exp.icon size={20} />
-                    </div>
-                    <h3 className="text-2xl font-bold">{exp.title}</h3>
+                
+                {/* Image Side */}
+                <div className="w-full md:w-5/12 relative h-[250px] md:h-auto overflow-hidden">
+                  <Image 
+                    src={category.image} 
+                    alt={category.title} 
+                    fill 
+                    className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                  />
+                  <div className="absolute top-4 left-4 bg-white p-3 rounded-2xl shadow-soft text-primary">
+                    <category.icon size={28} />
+                  </div>
+                  <h2 className="absolute bottom-4 left-4 text-3xl font-extrabold text-white shadow-black drop-shadow-md">
+                    {category.title}
+                  </h2>
+                </div>
+
+                {/* Menu Side */}
+                <div className="w-full md:w-7/12 p-8 md:p-10">
+                  <div className="flex flex-col gap-6">
+                    {category.items.map((item, i) => (
+                      <div key={i} className="flex gap-4 group/item cursor-default">
+                        <div className="flex-grow">
+                          <div className="flex justify-between items-baseline mb-1">
+                            <h4 className="text-lg font-bold text-foreground group-hover/item:text-primary transition-colors">{item.name}</h4>
+                            <div className="flex-grow border-b-2 border-dotted border-border mx-4 relative top-[-6px] hidden sm:block" />
+                            <span className="text-lg font-bold text-primary shrink-0">{item.price}</span>
+                          </div>
+                          <p className="text-muted-foreground text-sm font-medium">{item.desc}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <p className="text-muted-foreground text-lg mb-4">{exp.desc}</p>
-                <Button asChild variant="link" className="px-0 text-primary font-semibold hover:text-primary/80">
-                  <Link href="/contact">{exp.cta} &rarr;</Link>
-                </Button>
+
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
     </div>

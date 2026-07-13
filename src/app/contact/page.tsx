@@ -2,196 +2,263 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { SectionHeading } from "@/components/shared/SectionHeading";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle2 } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MapPin, Phone, Clock, Send, Mail, User, CheckCircle2, MessageCircle, Loader2 } from "lucide-react";
+import { FADE_UP, STAGGER_CONTAINER } from "@/lib/animations";
+import { YouTubeVideoBackground } from "@/components/shared/YouTubeVideoBackground";
 
-const bookingSchema = z.object({
+const enquirySchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
+  mobile: z.string().min(10, "Please enter a valid mobile number."),
   email: z.string().email("Please enter a valid email address."),
-  phone: z.string().min(10, "Please enter a valid phone number."),
-  checkIn: z.string().min(1, "Check-in date is required."),
-  checkOut: z.string().min(1, "Check-out date is required."),
-  guests: z.string().min(1, "Please select number of guests."),
-  roomType: z.string().min(1, "Please select a room type."),
-  requests: z.string().optional(),
+  subject: z.string().min(2, "Subject is required."),
+  message: z.string().min(10, "Message must be at least 10 characters long."),
 });
 
-const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters."),
-  email: z.string().email("Please enter a valid email address."),
-  phone: z.string().min(10, "Please enter a valid phone number."),
-  subject: z.string().min(5, "Subject must be at least 5 characters."),
-  message: z.string().min(10, "Message must be at least 10 characters."),
-});
+type EnquiryData = z.infer<typeof enquirySchema>;
 
 export default function ContactPage() {
-  const [bookingStatus, setBookingStatus] = useState<"idle" | "loading" | "success">("idle");
-  const [contactStatus, setContactStatus] = useState<"idle" | "loading" | "success">("idle");
+  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  const bookingForm = useForm<z.infer<typeof bookingSchema>>({
-    resolver: zodResolver(bookingSchema),
-    defaultValues: { name: "", email: "", phone: "", checkIn: "", checkOut: "", guests: "1", roomType: "", requests: "" }
+  const enquiryForm = useForm<EnquiryData>({
+    resolver: zodResolver(enquirySchema),
+    defaultValues: { name: "", mobile: "", email: "", subject: "", message: "" }
   });
 
-  const contactForm = useForm<z.infer<typeof contactSchema>>({
-    resolver: zodResolver(contactSchema),
-    defaultValues: { name: "", email: "", phone: "", subject: "", message: "" }
-  });
+  const onEnquirySubmit = async (data: EnquiryData) => {
+    setFormStatus("loading");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-  const onBookingSubmit = (data: z.infer<typeof bookingSchema>) => {
-    setBookingStatus("loading");
-    setTimeout(() => {
-      setBookingStatus("success");
-      bookingForm.reset();
-    }, 2000);
+      if (response.ok) {
+        setFormStatus("success");
+        enquiryForm.reset();
+        setTimeout(() => setFormStatus("idle"), 5000);
+      } else {
+        setFormStatus("error");
+      }
+    } catch (error) {
+      setFormStatus("error");
+    }
   };
 
-  const onContactSubmit = (data: z.infer<typeof contactSchema>) => {
-    setContactStatus("loading");
-    setTimeout(() => {
-      setContactStatus("success");
-      contactForm.reset();
-    }, 2000);
-  };
+  const inputClass = "flex w-full rounded-xl border border-border bg-white px-4 py-3 text-base text-foreground placeholder:text-muted-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:border-transparent transition-all";
+  const labelClass = "text-sm font-bold text-foreground mb-1.5 block";
+  const errorClass = "text-destructive text-xs mt-1 block font-bold";
 
   return (
-    <div className="min-h-screen">
-      <section className="relative h-[60vh] w-full flex items-center justify-center">
-        <div className="absolute inset-0 z-0">
-          <Image src="https://loremflickr.com/1200/800/coworking?lock=1" alt="Contact Ejaas House" fill className="object-cover" priority />
-          <div className="absolute inset-0 bg-black/50" />
-        </div>
-        <div className="relative z-10 text-center text-white px-4">
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-5xl md:text-7xl font-bold mb-4">
-            Connect With Us
-          </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-xl md:text-2xl text-zinc-200">
-            Book your stay or just drop by to say hello.
+    <div className="min-h-screen bg-background">
+      
+      {/* Cinematic Video Hero */}
+      <section className="relative h-[60vh] w-full flex items-end justify-start overflow-hidden bg-black">
+        <YouTubeVideoBackground videoId="mdWw2N0wCNo" startTime={5} />
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/85 via-black/30 to-black/10" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/40 to-transparent" />
+        
+        <motion.div 
+          variants={STAGGER_CONTAINER}
+          initial="hidden"
+          animate="show"
+          className="relative z-20 container mx-auto px-4 md:px-8 max-w-7xl pb-14 pt-28"
+        >
+          <motion.p variants={FADE_UP} className="text-accent font-bold text-sm tracking-widest uppercase mb-3">We'd love to hear from you</motion.p>
+          <motion.h1 variants={FADE_UP} className="text-5xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-lg">Get in Touch</motion.h1>
+          <motion.p variants={FADE_UP} className="text-lg text-white/80 max-w-2xl font-medium">
+            Have a question about a stay, event, or our café? We're here to help.
           </motion.p>
-        </div>
+        </motion.div>
+
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-20 z-20 bg-gradient-to-t from-background to-transparent" />
       </section>
 
-      <section className="py-24 bg-background">
+      {/* Main Content */}
+      <section className="py-16 relative z-10">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-          <div className="grid lg:grid-cols-2 gap-16">
-            <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
-              <Tabs defaultValue="book" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 mb-8 bg-zinc-100 dark:bg-zinc-900 rounded-full h-14 p-1">
-                  <TabsTrigger value="book" className="rounded-full text-base h-full">Book a Room</TabsTrigger>
-                  <TabsTrigger value="contact" className="rounded-full text-base h-full">General Inquiry</TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="book">
-                  <div className="bg-zinc-50 dark:bg-zinc-900/50 p-8 rounded-3xl shadow-sm border border-zinc-100 dark:border-zinc-800 relative overflow-hidden">
-                    <h2 className="text-2xl font-bold mb-6">Reservation Request</h2>
-                    <AnimatePresence>
-                      {bookingStatus === "success" && (
-                        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="absolute inset-0 bg-white dark:bg-zinc-900 flex flex-col items-center justify-center text-center p-8 z-10">
-                          <CheckCircle2 size={64} className="text-green-500 mb-4" />
-                          <h3 className="text-2xl font-bold mb-2">Request Sent!</h3>
-                          <p className="text-muted-foreground mb-6">We have received your booking request and will confirm your reservation shortly via email.</p>
-                          <Button onClick={() => setBookingStatus("idle")} variant="outline" className="rounded-full">Book Another Room</Button>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                    
-                    <form onSubmit={bookingForm.handleSubmit(onBookingSubmit)} className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2"><Label>Full Name</Label><Input placeholder="John Doe" className="bg-white dark:bg-zinc-800" {...bookingForm.register("name")} />{bookingForm.formState.errors.name && <span className="text-red-500 text-sm">{bookingForm.formState.errors.name.message}</span>}</div>
-                        <div className="space-y-2"><Label>Phone</Label><Input placeholder="+91 98765..." className="bg-white dark:bg-zinc-800" {...bookingForm.register("phone")} />{bookingForm.formState.errors.phone && <span className="text-red-500 text-sm">{bookingForm.formState.errors.phone.message}</span>}</div>
+          <motion.div 
+            variants={STAGGER_CONTAINER}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid lg:grid-cols-5 gap-8 lg:gap-12"
+          >
+            
+            {/* Contact Information Card */}
+            <motion.div variants={FADE_UP} className="lg:col-span-2">
+              <div className="bg-card p-8 rounded-[2rem] shadow-soft-lg h-full border border-border flex flex-col justify-between transition-all duration-300">
+                <div>
+                  <h2 className="text-2xl font-extrabold mb-8 text-foreground">Contact Information</h2>
+                  
+                  <div className="space-y-6">
+                    <div className="flex items-start gap-4">
+                      <div className="bg-accent/10 p-3 rounded-xl text-accent shrink-0 border border-accent/20">
+                        <User size={24} />
                       </div>
-                      <div className="space-y-2"><Label>Email</Label><Input placeholder="john@example.com" className="bg-white dark:bg-zinc-800" {...bookingForm.register("email")} />{bookingForm.formState.errors.email && <span className="text-red-500 text-sm">{bookingForm.formState.errors.email.message}</span>}</div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2"><Label>Check-in</Label><Input type="date" className="bg-white dark:bg-zinc-800" {...bookingForm.register("checkIn")} />{bookingForm.formState.errors.checkIn && <span className="text-red-500 text-sm">{bookingForm.formState.errors.checkIn.message}</span>}</div>
-                        <div className="space-y-2"><Label>Check-out</Label><Input type="date" className="bg-white dark:bg-zinc-800" {...bookingForm.register("checkOut")} />{bookingForm.formState.errors.checkOut && <span className="text-red-500 text-sm">{bookingForm.formState.errors.checkOut.message}</span>}</div>
+                      <div>
+                        <h4 className="font-bold text-foreground">Contact Person</h4>
+                        <p className="text-muted-foreground font-medium">Rahul Sharma (Manager)</p>
                       </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2"><Label>Guests</Label>
-                          <Select onValueChange={(v) => bookingForm.setValue("guests", v as string)} defaultValue="1">
-                            <SelectTrigger className="bg-white dark:bg-zinc-800"><SelectValue placeholder="Select guests" /></SelectTrigger>
-                            <SelectContent><SelectItem value="1">1 Guest</SelectItem><SelectItem value="2">2 Guests</SelectItem><SelectItem value="3">3 Guests</SelectItem><SelectItem value="4+">4+ Guests</SelectItem></SelectContent>
-                          </Select>
-                          {bookingForm.formState.errors.guests && <span className="text-red-500 text-sm">{bookingForm.formState.errors.guests.message}</span>}
-                        </div>
-                        <div className="space-y-2"><Label>Room Type</Label>
-                          <Select onValueChange={(v) => bookingForm.setValue("roomType", v as string)}>
-                            <SelectTrigger className="bg-white dark:bg-zinc-800"><SelectValue placeholder="Select room" /></SelectTrigger>
-                            <SelectContent><SelectItem value="dorm">Luxury Mixed Dorm</SelectItem><SelectItem value="private">Cozy Private Room</SelectItem><SelectItem value="cabin">Premium Mountain Cabin</SelectItem></SelectContent>
-                          </Select>
-                          {bookingForm.formState.errors.roomType && <span className="text-red-500 text-sm">{bookingForm.formState.errors.roomType.message}</span>}
-                        </div>
-                      </div>
-                      <div className="space-y-2"><Label>Special Requests</Label><Textarea placeholder="Any specific requirements?" className="bg-white dark:bg-zinc-800 resize-none" {...bookingForm.register("requests")} /></div>
-                      <Button type="submit" className="w-full rounded-full h-12 text-lg shadow-lg" disabled={bookingStatus === "loading"}>{bookingStatus === "loading" ? "Processing..." : "Request Booking"}</Button>
-                    </form>
-                  </div>
-                </TabsContent>
+                    </div>
 
-                <TabsContent value="contact">
-                  <div className="bg-zinc-50 dark:bg-zinc-900/50 p-8 rounded-3xl shadow-sm border border-zinc-100 dark:border-zinc-800 relative overflow-hidden">
-                    <h2 className="text-2xl font-bold mb-6">Send a Message</h2>
-                    <AnimatePresence>
-                      {contactStatus === "success" && (
-                        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="absolute inset-0 bg-white dark:bg-zinc-900 flex flex-col items-center justify-center text-center p-8 z-10">
-                          <CheckCircle2 size={64} className="text-green-500 mb-4" />
-                          <h3 className="text-2xl font-bold mb-2">Message Sent!</h3>
-                          <p className="text-muted-foreground mb-6">Thanks for reaching out. Our team will get back to you within 24 hours.</p>
-                          <Button onClick={() => setContactStatus("idle")} variant="outline" className="rounded-full">Send Another Message</Button>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                    
-                    <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2"><Label>Name</Label><Input placeholder="John Doe" className="bg-white dark:bg-zinc-800" {...contactForm.register("name")} />{contactForm.formState.errors.name && <span className="text-red-500 text-sm">{contactForm.formState.errors.name.message}</span>}</div>
-                        <div className="space-y-2"><Label>Phone</Label><Input placeholder="+91..." className="bg-white dark:bg-zinc-800" {...contactForm.register("phone")} />{contactForm.formState.errors.phone && <span className="text-red-500 text-sm">{contactForm.formState.errors.phone.message}</span>}</div>
+                    <div className="flex items-start gap-4 group">
+                      <div className="bg-primary/10 p-3 rounded-xl text-primary shrink-0 border border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors">
+                        <Phone size={24} />
                       </div>
-                      <div className="space-y-2"><Label>Email</Label><Input placeholder="john@example.com" className="bg-white dark:bg-zinc-800" {...contactForm.register("email")} />{contactForm.formState.errors.email && <span className="text-red-500 text-sm">{contactForm.formState.errors.email.message}</span>}</div>
-                      <div className="space-y-2"><Label>Subject</Label><Input placeholder="How can we help?" className="bg-white dark:bg-zinc-800" {...contactForm.register("subject")} />{contactForm.formState.errors.subject && <span className="text-red-500 text-sm">{contactForm.formState.errors.subject.message}</span>}</div>
-                      <div className="space-y-2"><Label>Message</Label><Textarea placeholder="Write your message here..." className="bg-white dark:bg-zinc-800 resize-none h-32" {...contactForm.register("message")} />{contactForm.formState.errors.message && <span className="text-red-500 text-sm">{contactForm.formState.errors.message.message}</span>}</div>
-                      <Button type="submit" className="w-full rounded-full h-12 text-lg shadow-lg" disabled={contactStatus === "loading"}>{contactStatus === "loading" ? "Sending..." : "Send Message"} <Send className="ml-2" size={18} /></Button>
-                    </form>
-                  </div>
-                </TabsContent>
-              </Tabs>
-            </motion.div>
+                      <div>
+                        <h4 className="font-bold text-foreground">Mobile & WhatsApp</h4>
+                        <a href="tel:+919876543210" className="text-muted-foreground font-medium hover:text-primary transition-colors block">+91 98765 43210</a>
+                        <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-sm font-bold text-[#25D366] mt-2 bg-[#25D366]/10 px-3 py-1 rounded-full hover:bg-[#25D366]/20 transition-colors border border-[#25D366]/20">
+                          <MessageCircle size={16} /> Chat on WhatsApp
+                        </a>
+                      </div>
+                    </div>
 
-            <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="flex flex-col justify-between">
-              <div>
-                <h2 className="text-3xl font-bold mb-8">Location & Info</h2>
-                <div className="space-y-6 mb-12">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-primary/10 p-3 rounded-full text-primary shrink-0"><MapPin size={24} /></div>
-                    <div><h4 className="font-bold text-lg">Address</h4><p className="text-muted-foreground">Ejaas House, Badrinath Road, Tapovan<br/>Rishikesh, Uttarakhand 249192, India</p></div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="bg-primary/10 p-3 rounded-full text-primary shrink-0"><Phone size={24} /></div>
-                    <div><h4 className="font-bold text-lg">Contact</h4><p className="text-muted-foreground">+91 98765 43210<br/>hello@ejaashouse.com</p></div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="bg-primary/10 p-3 rounded-full text-primary shrink-0"><Clock size={24} /></div>
-                    <div><h4 className="font-bold text-lg">Hours</h4><p className="text-muted-foreground">Reception: 24/7<br/>Cafe: 8:00 AM - 11:00 PM</p></div>
+                    <div className="flex items-start gap-4 group">
+                      <div className="bg-primary/10 p-3 rounded-xl text-primary shrink-0 border border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors">
+                        <Mail size={24} />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-foreground">Email Address</h4>
+                        <a href="mailto:hello@ejaashouse.com" className="text-muted-foreground font-medium hover:text-primary transition-colors">hello@ejaashouse.com</a>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <div className="bg-primary/10 p-3 rounded-xl text-primary shrink-0 border border-primary/20">
+                        <MapPin size={24} />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-foreground">Full Address</h4>
+                        <p className="text-muted-foreground font-medium">Ejaas House, Badrinath Road<br/>Tapovan, Rishikesh<br/>Uttarakhand 249192, India</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <div className="bg-primary/10 p-3 rounded-xl text-primary shrink-0 border border-primary/20">
+                        <Clock size={24} />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-foreground">Business Hours</h4>
+                        <p className="text-muted-foreground font-medium">Reception: 24/7<br/>Café: 8:00 AM - 11:00 PM</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="w-full h-64 bg-zinc-200 dark:bg-zinc-800 rounded-3xl overflow-hidden relative shadow-inner">
-                <Image src="https://loremflickr.com/1200/800/map?lock=2" alt="Map View" fill className="object-cover opacity-50 grayscale" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Button variant="secondary" className="rounded-full shadow-xl"><MapPin className="mr-2" size={18} /> Open in Google Maps</Button>
+
+                {/* Google Maps Embed */}
+                <div className="w-full h-48 bg-muted mt-8 rounded-[1.5rem] overflow-hidden relative shadow-inner border border-border">
+                  <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13770.835154388334!2d78.31490211737402!3d30.12658896500445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3909166946059d7d%3A0xf607a726117bd473!2sTapovan%2C%20Rishikesh%2C%20Uttarakhand%20249192!5e0!3m2!1sen!2sin!4v1715000000000!5m2!1sen!2sin" 
+                    width="100%" 
+                    height="100%" 
+                    style={{ border: 0 }} 
+                    allowFullScreen={true} 
+                    loading="lazy" 
+                    referrerPolicy="no-referrer-when-downgrade"
+                  ></iframe>
                 </div>
               </div>
             </motion.div>
-          </div>
+
+            {/* Enquiry Form Area */}
+            <motion.div variants={FADE_UP} className="lg:col-span-3">
+              <div className="bg-white p-8 md:p-12 rounded-[2rem] shadow-soft-lg border border-border h-full transition-all duration-300">
+                <h2 className="text-3xl font-extrabold mb-2 text-foreground">Send an Enquiry</h2>
+                <p className="text-muted-foreground mb-8 font-medium">Fill out the form below and our team will get back to you shortly.</p>
+
+                <AnimatePresence mode="wait">
+                  {formStatus === "success" ? (
+                    <motion.div 
+                      key="success"
+                      initial={{ opacity: 0, scale: 0.95 }} 
+                      animate={{ opacity: 1, scale: 1 }} 
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      className="bg-primary/5 border border-primary/20 rounded-2xl p-8 text-center"
+                    >
+                      <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 text-white">
+                        <CheckCircle2 size={32} />
+                      </div>
+                      <h3 className="text-2xl font-bold mb-2 text-foreground">Enquiry Sent Successfully!</h3>
+                      <p className="text-muted-foreground font-medium">Thank you for reaching out. We will get back to you within 24 hours.</p>
+                    </motion.div>
+                  ) : (
+                    <motion.form 
+                      key="form"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      onSubmit={enquiryForm.handleSubmit(onEnquirySubmit)} 
+                      className="space-y-5"
+                    >
+                      {formStatus === "error" && (
+                        <div className="bg-destructive/10 text-destructive p-4 rounded-xl text-sm font-bold">
+                          There was an error sending your message. Please try again or contact us directly.
+                        </div>
+                      )}
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                          <label className={labelClass}>Full Name</label>
+                          <input type="text" placeholder="e.g. Aditi Rao" className={inputClass} {...enquiryForm.register("name")} />
+                          {enquiryForm.formState.errors.name && <span className={errorClass}>{enquiryForm.formState.errors.name.message}</span>}
+                        </div>
+                        <div>
+                          <label className={labelClass}>Mobile Number</label>
+                          <input type="tel" placeholder="+91 98765 43210" className={inputClass} {...enquiryForm.register("mobile")} />
+                          {enquiryForm.formState.errors.mobile && <span className={errorClass}>{enquiryForm.formState.errors.mobile.message}</span>}
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className={labelClass}>Email Address</label>
+                        <input type="email" placeholder="you@example.com" className={inputClass} {...enquiryForm.register("email")} />
+                        {enquiryForm.formState.errors.email && <span className={errorClass}>{enquiryForm.formState.errors.email.message}</span>}
+                      </div>
+
+                      <div>
+                        <label className={labelClass}>Subject</label>
+                        <input type="text" placeholder="e.g. Room Booking Inquiry" className={inputClass} {...enquiryForm.register("subject")} />
+                        {enquiryForm.formState.errors.subject && <span className={errorClass}>{enquiryForm.formState.errors.subject.message}</span>}
+                      </div>
+
+                      <div>
+                        <label className={labelClass}>Message</label>
+                        <textarea 
+                          placeholder="How can we help you?" 
+                          className={`${inputClass} min-h-[120px] resize-y`} 
+                          {...enquiryForm.register("message")} 
+                        />
+                        {enquiryForm.formState.errors.message && <span className={errorClass}>{enquiryForm.formState.errors.message.message}</span>}
+                      </div>
+
+                      <motion.button 
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.98 }}
+                        type="submit" 
+                        disabled={formStatus === "loading"}
+                        className="w-full bg-primary text-white font-bold text-lg h-14 rounded-2xl shadow-soft hover:bg-primary/90 hover:shadow-soft-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed group mt-4 border-2 border-primary"
+                      >
+                        {formStatus === "loading" ? (
+                          <><Loader2 className="animate-spin" size={20} /> Sending...</>
+                        ) : (
+                          <>Send Enquiry <Send size={18} className="group-hover:translate-x-1 transition-transform" /></>
+                        )}
+                      </motion.button>
+                    </motion.form>
+                  )}
+                </AnimatePresence>
+              </div>
+            </motion.div>
+
+          </motion.div>
         </div>
       </section>
     </div>
